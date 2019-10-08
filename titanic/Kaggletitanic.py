@@ -85,46 +85,46 @@ x_test['Embarked'].replace("Q",2,inplace=True) # Q as 2
 
 
 # Model Building 1st model KNN
-        modelKnn = KNeighborsClassifier(n_neighbors=8).fit(x_train,y_train)
-        y_knn = modelKnn.predict(x_test)
-        
-        # Accuracy
-        accuracy_score(y_test,y_knn) # Getting 65% Accuracy in KNN
-        
-    # Standardised data
-    x = StandardScaler().fit(x_train).transform(x_train.astype(float))
-    x_stest = StandardScaler().fit(x_test).transform(x_test.astype(float))
-        modelKnn2 = KNeighborsClassifier(n_neighbors=8).fit(x,y_train)
-        y_knn2 = modelKnn2.predict(x_stest)
-        accuracy_score(y_test,y_knn2) # Getting 85% Accuracy in KNN
+modelKnn = KNeighborsClassifier(n_neighbors=8).fit(x_train,y_train)
+y_knn = modelKnn.predict(x_test)
+
+# Accuracy
+accuracy_score(y_test,y_knn) # Getting 65% Accuracy in KNN
+
+# Standardised data
+x = StandardScaler().fit(x_train).transform(x_train.astype(float))
+x_stest = StandardScaler().fit(x_test).transform(x_test.astype(float))
+modelKnn2 = KNeighborsClassifier(n_neighbors=8).fit(x,y_train)
+y_knn2 = modelKnn2.predict(x_stest)
+accuracy_score(y_test,y_knn2) # Getting 85% Accuracy in KNN
 
 # Model Building 2nd Model with Decission Tree
-        modelTree =  DecisionTreeClassifier(criterion="entropy",random_state=3,max_depth=3).fit(x_train,y_train)       
-        y_tree = modelTree.predict(x_test)        
-        accuracy_score(y_test,y_tree) # Getting 88.9% Accuracy in Decission tree
+modelTree =  DecisionTreeClassifier(criterion="entropy",random_state=3,max_depth=3).fit(x_train,y_train)       
+y_tree = modelTree.predict(x_test)        
+accuracy_score(y_test,y_tree) # Getting 88.9% Accuracy in Decission tree
 
-        modelTree2 =  DecisionTreeClassifier(criterion="gini",random_state=3,max_depth=3).fit(x_train,y_train)       
-        y_tree2 = modelTree2.predict(x_test)        
-        accuracy_score(y_test,y_tree2) # Getting 89.4% Accuracy in Decission tree
+modelTree2 =  DecisionTreeClassifier(criterion="gini",random_state=3,max_depth=3).fit(x_train,y_train)       
+y_tree2 = modelTree2.predict(x_test)        
+accuracy_score(y_test,y_tree2) # Getting 89.4% Accuracy in Decission tree
 
 # Model using Rendom Forest
-        modelRF = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="entropy",max_depth=3).fit(x_train,y_train)
-        y_RF = modelRF.predict(x_test)
-        accuracy_score(y_test,y_RF) # Getting 87.5% Accuracy in Decission tree
-        
-        modelRF = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="entropy",max_depth=3,random_state=6).fit(x,y_train)
-        y_RF = modelRF.predict(x_stest)
-        accuracy_score(y_test,y_RF) # Getting 95.45% Accuracy in Decission tree
-        
+modelRF = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="entropy",max_depth=3).fit(x_train,y_train)
+y_RF = modelRF.predict(x_test)
+accuracy_score(y_test,y_RF) # Getting 87.5% Accuracy in Decission tree
 
-        modelRF2 = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="gini",max_depth=3).fit(x,y_train)
-        y_RF2 = modelRF2.predict(x_stest)
-        accuracy_score(y_test,y_RF2) # Getting 94.0% Accuracy in Decission tree
+modelRF = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="entropy",max_depth=3,random_state=6).fit(x,y_train)
+y_RF = modelRF.predict(x_stest)
+accuracy_score(y_test,y_RF) # Getting 95.45% Accuracy in Decission tree
+
+
+modelRF2 = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="gini",max_depth=3).fit(x,y_train)
+y_RF2 = modelRF2.predict(x_stest)
+accuracy_score(y_test,y_RF2) # Getting 94.0% Accuracy in Decission tree
 a = []
-        for i in range(1,30) :
-            modelRF = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="gini",max_depth=3,random_state=i).fit(x,y_train)
-            y_RF = modelRF.predict(x_stest)
-            a.append(accuracy_score(y_test,y_RF))
+for i in range(1,30) :
+    modelRF = RandomForestClassifier(n_jobs=5,oob_score=True,n_estimators=100,criterion="gini",max_depth=3,random_state=i).fit(x,y_train)
+    y_RF = modelRF.predict(x_stest)
+    a.append(accuracy_score(y_test,y_RF))
             
 a
 
@@ -132,7 +132,7 @@ Survival = pd.DataFrame(y_RF)
 PassengerId=Test[["PassengerId"]]
 
 A = pd.concat([PassengerId,Survival],axis=1)
-A.columns = ["PassengerId","Survival"]
+A.columns = ["PassengerId","Survived"]
 type(A)
 
-A.to_csv("AMAN.csv")
+A.to_csv("AMAN.csv",index=False)
